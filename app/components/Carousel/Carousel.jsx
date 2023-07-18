@@ -42,6 +42,7 @@ const Carousel = ({ images }) => {
                   src={image}
                   alt={`Slide ${index + 1}`}
                   priority
+                  loading="eager"
                   height={780}
                   width={1920}
                   className="w-full h-full object-cover"

@@ -1,7 +1,17 @@
 function Loading() {
   return (
-    <div>Loading...</div>
-  )
+    <div
+      className="
+      min-h-[80vh]
+      flex 
+      flex-col 
+      justify-center 
+      items-center 
+    "
+    >
+      <img src="/images/spinner.gif" />
+    </div>
+  );
 }
 
-export default Loading
+export default Loading;

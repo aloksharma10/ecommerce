@@ -13,10 +13,10 @@ function Products() {
       </h1>
       <div className="flex">
         <Filter />
-        <div className="mx-10 grid justify-center px-4 gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mx-10 grid justify-center px-4 gap-5 md:grid-cols-2 2xl:grid-cols-4">
           {/* product card */}
         
-          <div className="my-4 flex w-full flex-col overflow-hidden rounded-2xl border border-gray-300 bg-white text-gray-900 transition hover:shadow-lg">
+          <div className="my-4 flex flex-col overflow-hidden rounded-2xl border border-gray-300 bg-white text-gray-900 transition hover:shadow-lg">
             <Link href="/product/qew">
               <div className="relative "> 
                 <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">
@@ -24,8 +24,8 @@ function Products() {
                 </span>
                 <div className="object-contain flex justify-center bottom-0 h-96 md:h-80 z-10  w-full bg-white overflow-hidden">
                   <Image
-                    className="h-96 md:h-80 max-w-none"
-                    src="https://m.media-amazon.com/images/I/71kDCavI6JS._SL1500_.jpg"
+                    className="h-96 md:h-80 max-w-none  object-cover "
+                    src="https://m.media-amazon.com/images/I/41CK1CvkW6L._SX300_SY300_QL70_FMwebp_.jpg"
                     height={200}
                     width={300}
                     alt=""
