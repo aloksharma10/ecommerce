@@ -13,7 +13,7 @@ function Products() {
       </h1>
       <div className="flex">
         <Filter />
-        <div className="mx-10 grid justify-center px-4 gap-5 md:grid-cols-2 2xl:grid-cols-4">
+        <div className="mx-2 md:mx-10 grid justify-center px-4 gap-5 md:grid-cols-2 2xl:grid-cols-4">
           {/* product card */}
         
           <div className="my-4 flex flex-col overflow-hidden rounded-2xl border border-gray-300 bg-white text-gray-900 transition hover:shadow-lg">

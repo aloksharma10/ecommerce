@@ -1,23 +1,32 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { BsMoonStarsFill, BsFillSunFill, BsCart2 } from "react-icons/bs";
+import {
+  BsMoonStarsFill,
+  BsFillSunFill,
+  BsCart2,
+  BsBoxSeam,
+} from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RxCrossCircled } from "react-icons/rx";
-import { MdAccountCircle } from "react-icons/md";
-import { FiChevronDown, FiSearch } from "react-icons/fi";
+import { PiUser } from "react-icons/pi";
+import { FiChevronDown, FiLogOut, FiSearch } from "react-icons/fi";
 import { useTheme } from "next-themes";
 import SearchBox from "./SearchBox";
-import {usePathname} from 'next/navigation'
+import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import { MdOutlineNotifications } from "react-icons/md";
+import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
 
 function Navbar() {
+  const { data } = useSession();
   const { systemTheme, theme, setTheme } = useTheme();
-  const login = false;
   const [nav, setNav] = useState("hidden");
   const [mounted, setMounted] = useState(false);
   const [fashion, setFashion] = useState(false);
   const [searchBox, setSearchBox] = useState(false);
-  const pathname = usePathname()
+  const [userDropdown, setUserDropdown] = useState(false);
+  const pathname = usePathname();
 
   const toggleNav = () => {
     if (nav == "hidden") {
@@ -32,25 +41,6 @@ function Navbar() {
     setNav("hidden");
   }, [pathname]);
 
-  const toggleMode = () => {
-    if (!mounted) return null;
-    const currentTheme = theme == "system" ? systemTheme : theme;
-    if (currentTheme == "dark") {
-      return (
-        <BsFillSunFill
-          className="text-white text-2xl cursor-pointer"
-          onClick={() => setTheme("light")}
-        />
-      );
-    } else {
-      return (
-        <BsMoonStarsFill
-          className="text-black text-2xl cursor-pointer"
-          onClick={() => setTheme("dark")}
-        />
-      );
-    }
-  };
   return (
     <nav className="w-full z-20 py-2 shadow-lg sticky top-0 backdrop-blur-md bg-white/40 ">
       <div className="w-full px-3 flex flex-wrap items-center lg:justify-center mt-0 py-2 xl:py-0">
@@ -72,7 +62,9 @@ function Navbar() {
               }}
             />
           </div>
-          <div className="mx-2">{toggleMode()}</div>
+          {/* <div className="mx-2">
+            <ThemeSwitcher />
+          </div> */}
           <div className="mx-2 relative cursor-pointer">
             <BsCart2 className="text-2xl" />
             <span className="absolute -top-2 -right-2 h-5 w-5 text-sm rounded-full bg-slate-600 text-white flex justify-center items-center items cursor-pointer">
@@ -100,7 +92,11 @@ function Navbar() {
                   className="flex items-center  rounded-md"
                 >
                   <span className="flex">
-                    Fashion <FiChevronDown className="mt-1 text-xl" />
+                    Fashion<FiChevronDown
+                      className={`mt-1 mx-1 text-xl transition ease-in-out ${
+                        fashion ? "rotate-180" : ""
+                      }`}
+                    />
                   </span>
                 </button>
                 <ul
@@ -139,16 +135,17 @@ function Navbar() {
               <Link href="/beauty">Beauty</Link>
             </li>
             <li className="mx-1 relative cursor-pointer">
-              <BsCart2 className="text-3xl" />
+              <BsCart2 className="text-2xl" />
               <span className="absolute -top-2 -right-2 h-5 w-5 text-sm rounded-full bg-slate-600 text-white flex justify-center items-center hover:shadow-lg">
                 <span>1</span>
               </span>
             </li>
-            <li className="text-lg ml-4 mx-2 ">{toggleMode()}</li>
+            {/* <li className="text-lg ml-4 mx-2 ">
+              <ThemeSwitcher />
+            </li> */}
           </ul>
           <div className="text-center my-2 pr-4 pl-2">
-            {/* user login */}
-            {!login ? (
+            {!data?.user ? (
               <div>
                 <Link href={"/login"}>
                   <button className="text-white bg-black hover:bg-slate-700 hover:shadow-lg duration-300 focus:ring-2 focus:ring-black font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center mx-1">
@@ -157,13 +154,60 @@ function Navbar() {
                 </Link>
               </div>
             ) : (
-              <div>
-                <Link href={"/"}>
-                  <button className=" text-sm md:text-3xl hover:shadow-lg duration-300 focus:ring-2 focus:ring-black font-medium rounded-lg px-3 py-2 text-center  items-center mx-1">
-                    <MdAccountCircle />
-                  </button>
-                </Link>
-              </div>
+              <ul>
+                <li className="text-lg font-semibold hover:text-black rounded-md transition hover:scale-105 duration-150 ease-out hover:ease-in">
+                  <div
+                    onMouseLeave={() => setUserDropdown(false)}
+                    className="relative"
+                  >
+                    <button
+                      onMouseOver={() => setUserDropdown(true)}
+                      className="flex items-center  rounded-md"
+                    >
+                      <div className="flex space-x-2 items-center">
+                        <PiUser className="text-2xl" />
+                        <span className="text-xl ">
+                          {data?.user?.name.split(" ")[0]}
+                        </span>
+                        <FiChevronDown
+                          className={` ${
+                            userDropdown ? "rotate-180" : ""
+                          } transition duration-150 ease-out hover:ease-in`}
+                        />
+                      </div>
+                    </button>
+                    <ul
+                      className={`absolute mt-0 right-0 w-40 py-2 rounded-lg shadow-xl  bg-white ${
+                        userDropdown ? "block" : "hidden"
+                      }`}
+                    >
+                      <Link href={"/my-profile"}>
+                        <li className="flex w-full cursor-pointer  items-center px-3 py-2 text-sm hover:bg-gray-100">
+                          <PiUser className="text-lg mx-1" />{" "}
+                          <span className="mx-2 "> My profile</span>
+                        </li>
+                      </Link>
+                      <Link href={"/my-orders"}>
+                        <li className="flex w-full cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100">
+                          <BsBoxSeam className="text-lg mx-1" />{" "}
+                          <span className="mx-2 "> Orders</span>
+                        </li>
+                      </Link>
+                      <li className="flex w-full cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100">
+                        <MdOutlineNotifications className="text-lg mx-1" />{" "}
+                        <span className="mx-2 "> Notification</span>
+                      </li>
+                      <li
+                        onClick={() => signOut()}
+                        className="flex w-full cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-100"
+                      >
+                        <FiLogOut className="text-lg mx-1" />{" "}
+                        <span className="mx-2 "> Logout</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
             )}
           </div>
         </div>
@@ -174,7 +218,7 @@ function Navbar() {
       >
         <ul>
           <div className="text-center my-2 pl-2">
-            {!login ? (
+            {/* {!login ? (
               <Link href={"/login"}>
                 <button className="text-white bg-black hover:bg-slate-700 hover:shadow-lg duration-300 focus:ring-2 focus:ring-black font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center mx-1">
                   Login
@@ -186,7 +230,7 @@ function Navbar() {
                   <MdAccountCircle />
                 </button>
               </Link>
-            )}
+            )} */}
           </div>
           <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
             <Link href="/">Home</Link>

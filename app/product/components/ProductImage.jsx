@@ -24,9 +24,9 @@ function ProductImage() {
 
   return (
     <div className="flex lg:order-2 lg:ml-5 pt-2 mainImage mx-2 md:mx-0 cursor-crosshair">
-      <div className=" rounded-lg mx-auto relative h-[30rem] w-[35rem]  lg:h-[45rem] lg:w-[42rem]">
+      <div className=" rounded-lg mx-auto relative h-[25rem] w-[30rem]  lg:h-[45rem] lg:w-[42rem]">
         <Image
-          className="object-cover object-top rounded-lg"
+          className="object-contain lg:object-cover object-top rounded-lg"
           src="https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg"
           alt="productImg1"
           fill
@@ -40,7 +40,7 @@ function ProductImage() {
             backgroundPosition: `${mousePosition.x}% ${mousePosition.y}%`,
             transform: "translateX(100%)",
             backgroundImage: `url('https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg')`,
-            backgroundSize: "500%",
+            backgroundSize: "400%",
           }}
         />
       </div>

@@ -1,7 +1,12 @@
 import Image from "next/image";
 import ProductImage from "../components/ProductImage";
+import product from "@/libs/models/product";
 
 function page({ params }) {
+  const { slug } = params;
+  const prod = product.find((product) => product.slug === slug);
+  const { name, price, description, images } = prod;
+
   return (
     <section className="py-12 sm:py-16">
       <div className="container mx-auto px-4">
@@ -70,7 +75,6 @@ function page({ params }) {
               <ol role="list" className="flex items-center">
                 <li className="text-left">
                   <div className="-m-1">
-                    {params.id}
                     <a
                       href="#"
                       className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
@@ -103,7 +107,7 @@ function page({ params }) {
                         className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                         aria-current="page"
                       >
-                        Coffee
+                        {prod.name}
                       </a>
                     </div>
                   </div>

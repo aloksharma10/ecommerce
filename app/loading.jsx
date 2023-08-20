@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Loading() {
   return (
     <div
@@ -9,7 +11,7 @@ function Loading() {
       items-center 
     "
     >
-      <img src="/images/spinner.gif" />
+      <Image height={150} width={150} alt="loading..." src="/images/spinner.gif" />
     </div>
   );
 }
