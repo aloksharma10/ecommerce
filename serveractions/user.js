@@ -4,6 +4,7 @@ import User from "@/libs/models/user";
 import dbConn from "@/libs/mongo/dbconn";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { cookies } from "next/headers";
 
 let conn = false;
 
@@ -23,7 +24,7 @@ export async function userSignup(formData) {
       await connect();
     }
     const userToken = await bcrypt.hashSync(formData.get("password"), 10);
-    console.log(userToken)
+    console.log(userToken);
     const newUser = await User.create({
       name: formData.get("name"),
       email: formData.get("email"),
@@ -38,6 +39,9 @@ export async function userSignup(formData) {
 }
 
 export async function userLogin(formData) {
+  if (!conn) {
+    await connect();
+  }
   const user = await User.findOne({
     email: formData.get("email"),
   });
@@ -48,7 +52,18 @@ export async function userLogin(formData) {
   if (!isMatch) {
     throw new Error("Password is incorrect");
   }
-  const { password, ...userWithoutPassword } = user;
-  console.log(userWithoutPassword, isMatch)
-  return "verified";
+  // console.log(user.password)
+  const { password, _id, name, email, phone, cartItem } = user;
+  const token = jwt.sign(
+    { user: { _id, name, email, phone, cartItem } },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: 1440,
+    }
+  );
+  // console.log(token)
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  console.log(verified);
+  cookies().set("user", token, { secure: true, expires: 24 * 60 * 60 });
+  return token;
 }
