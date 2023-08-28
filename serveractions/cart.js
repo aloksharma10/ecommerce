@@ -24,7 +24,7 @@ export async function addProductToCart(id, productId) {
     user.cartItem.push(productId);
     return JSON.stringify(user.cartItem);
   } catch (error) {
-    console.log("failed to add product to cart");
+    return {status: false, message: "failed to add product to cart"};
   }
 }
 
@@ -37,7 +37,7 @@ export async function removeProductFromCart(id, productId) {
     user.cartItem.pop(productId);
     return JSON.stringify(user.cartItem);
   } catch (error) {
-    console.log("failed to add product to cart");
+    return {status: false, message: "failed to add product to cart"};
   }
 }
 
@@ -49,6 +49,6 @@ export async function getUserCart(id) {
     const user = await user.findOne(id).populate("cartItem");
     return JSON.stringify(user.cartItem);
   } catch (error) {
-    console.log("failed to get cartItem");
+    return {status: false, message: "failed to get cartItem"};
   }
 }

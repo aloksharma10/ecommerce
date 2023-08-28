@@ -24,7 +24,6 @@ export async function userSignup(formData) {
       await connect();
     }
     const userToken = await bcrypt.hashSync(formData.get("password"), 10);
-    console.log(userToken);
     const newUser = await User.create({
       name: formData.get("name"),
       email: formData.get("email"),
@@ -32,38 +31,20 @@ export async function userSignup(formData) {
       phone: formData.get("phone"),
     });
     const { password, ...userWithoutPassword } = newUser;
-    return "User created";
+    return { status: true, message: "User created successfully" };
   } catch (error) {
     console.log("failed to create user", error);
   }
 }
 
 export async function userLogin(formData) {
-  if (!conn) {
-    await connect();
-  }
-  const user = await User.findOne({
-    email: formData.get("email"),
-  });
-  if (!user) {
-    throw new Error("User not found");
-  }
-  const isMatch = await bcrypt.compare(formData.get("password"), user.password);
-  if (!isMatch) {
-    throw new Error("Password is incorrect");
-  }
-  // console.log(user.password)
-  const { password, _id, name, email, phone, cartItem } = user;
-  const token = jwt.sign(
-    { user: { _id, name, email, phone, cartItem } },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: 1440,
+  try {
+    if (!conn) {
+      await connect();
     }
-  );
-  // console.log(token)
-  const verified = jwt.verify(token, process.env.JWT_SECRET);
-  console.log(verified);
-  cookies().set("user", token, { secure: true, expires: 24 * 60 * 60 });
-  return token;
+   
+    return { status: true, message: "Login successful" };
+  } catch (error) {
+    return { status: false, message: error.message };
+  }
 }

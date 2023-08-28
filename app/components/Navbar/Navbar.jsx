@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  BsMoonStarsFill,
-  BsFillSunFill,
   BsCart2,
   BsBoxSeam,
 } from "react-icons/bs";
@@ -11,18 +9,15 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { RxCrossCircled } from "react-icons/rx";
 import { PiUser } from "react-icons/pi";
 import { FiChevronDown, FiLogOut, FiSearch } from "react-icons/fi";
-import { useTheme } from "next-themes";
-import SearchBox from "./SearchBox";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { MdOutlineNotifications } from "react-icons/md";
 import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
+import SearchBox from "./SearchBox";
 
 function Navbar() {
   const { data } = useSession();
-  const { systemTheme, theme, setTheme } = useTheme();
   const [nav, setNav] = useState("hidden");
-  const [mounted, setMounted] = useState(false);
   const [fashion, setFashion] = useState(false);
   const [searchBox, setSearchBox] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
@@ -37,7 +32,6 @@ function Navbar() {
   };
 
   useEffect(() => {
-    setMounted(true);
     setNav("hidden");
   }, [pathname]);
 
@@ -62,9 +56,9 @@ function Navbar() {
               }}
             />
           </div>
-          {/* <div className="mx-2">
+          <div className="mx-2">
             <ThemeSwitcher />
-          </div> */}
+          </div>
           <div className="mx-2 relative cursor-pointer">
             <BsCart2 className="text-2xl" />
             <span className="absolute -top-2 -right-2 h-5 w-5 text-sm rounded-full bg-slate-600 text-white flex justify-center items-center items cursor-pointer">
@@ -140,9 +134,9 @@ function Navbar() {
                 <span>1</span>
               </span>
             </li>
-            {/* <li className="text-lg ml-4 mx-2 ">
+            <li className="text-lg ml-4 mx-2 ">
               <ThemeSwitcher />
-            </li> */}
+            </li>
           </ul>
           <div className="text-center my-2 pr-4 pl-2">
             {!data?.user ? (

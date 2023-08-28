@@ -4,21 +4,27 @@ import Filter from "./Filter";
 import { AiTwotoneStar } from "react-icons/ai";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
+import { getAllProducts } from "@/serveractions/product";
 
-function Products() {
+async function Products({ params }) {
+  const { category } = params;
+  const product =await getAllProducts(category.split("-")[0])
+  console.log("productComponent", product)
   return (
     <section className="py-10">
       <h1 className="mb-12 text-center font-sans text-2xl md:text-5xl font-bold">
         Our Collections
       </h1>
       <div className="flex">
+
         <Filter />
+        
         <div className="mx-2 md:mx-10 grid justify-center px-4 gap-5 md:grid-cols-2 2xl:grid-cols-4">
           {/* product card */}
-        
+
           <div className="my-4 flex flex-col overflow-hidden rounded-2xl border border-gray-300 bg-white text-gray-900 transition hover:shadow-lg">
             <Link href="/product/qew">
-              <div className="relative "> 
+              <div className="relative ">
                 <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">
                   Sale
                 </span>

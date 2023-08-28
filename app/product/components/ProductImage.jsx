@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-function ProductImage() {
+function ProductImage({images}) {
   const [displayState, setDisplayState] = useState("hidden");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 

@@ -1,11 +1,11 @@
 import Image from "next/image";
 import ProductImage from "../components/ProductImage";
-import product from "@/libs/models/product";
+import { getProduct } from "@/serveractions/product";
 
-function page({ params }) {
+async function page({ params }) {
   const { slug } = params;
-  const prod = product.find((product) => product.slug === slug);
-  const { name, price, description, images } = prod;
+  const product = await getProduct(slug);
+  console.log(product);
 
   return (
     <section className="py-12 sm:py-16">
@@ -13,7 +13,7 @@ function page({ params }) {
         <div className="xl:flex">
           <div className="lg:col-span-3 lg:row-end-1">
             <div className="lg:flex lg:items-start">
-              <ProductImage />
+              <ProductImage images={product.images}/>
               <div className="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
                 <div className="flex flex-row items-start lg:flex-col">
                   <div className="flex flex-col mx-auto border-black">
@@ -107,7 +107,7 @@ function page({ params }) {
                         className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                         aria-current="page"
                       >
-                        {prod.name}
+                        {"prod.name"}
                       </a>
                     </div>
                   </div>

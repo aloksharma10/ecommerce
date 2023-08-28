@@ -1,32 +1,14 @@
 "use client";
-import Link from "next/link";
-import { userLogin } from "@/serveractions/user";
-import GoogleLoginProvider from "./GoogleLoginProvider";
-import { toast } from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import React, { useContext } from "react";
+import GoogleLoginProvider from "../Login/GoogleLoginProvider";
+import { userSignup } from "@/serveractions/user";
 
-function Login() {
-  const handleLogin = async (e) => {
+function Signup() {
+  const handleSignup = (e) => {
     e.preventDefault();
-    const formData = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-    // const resData = await userLogin(formData);
-    const resData = await signIn("credentials", { ...formData });
-    console.log("resData", resData);
-    // if (resData.status) {
-    //   toast.success(resData.message);
-    // } else {
-    //   toast.error(resData.message);
-    // }
   };
-
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8 mx-auto md:py-5">
-      <div className="px-0 lg:pl-4 flex items-center lg:mx-4 cursor-pointer bg-clip-text text-black text-3xl font-bold my-5">
-        <Link href="/">Welcome to ShopVio</Link>
-      </div>
       <GoogleLoginProvider />
       <div className="my-3 flex items-center justify-between">
         <span className="border-b md:w-48 w-32"></span>
@@ -38,9 +20,21 @@ function Login() {
       <div className="w-full bg-slate-200 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0  ">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl ">
-            Welcome Back !
+            Welcome to ShopVio !
           </h1>
-          <form onSubmit={handleLogin}>
+          <form action={userSignup}>
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-sm font-medium  ">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5"
+                placeholder="Enter your full name"
+              />
+            </div>
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium  ">
                 Your email
@@ -66,33 +60,25 @@ function Login() {
                 required=""
               />
             </div>
-            <div className="md:flex items-center mt-3 justify-between">
-              <div className="flex items-start">
-                <div className="flex items-center h-5"></div>
-                <div className="text-sm">
-                  <p className="text-sm font-light ">
-                    Don’t have an account yet?
-                    <Link
-                      href="/signup"
-                      className="font-medium text-black hover:underline "
-                    >
-                      Sign up
-                    </Link>
-                  </p>
-                </div>
-              </div>
-              <Link
-                href="/forgot-password"
-                className="text-sm font-medium text-black hover:underline "
-              >
-                Forgot password?
-              </Link>
+            <div className="mb-4">
+              <label htmlFor="phone" className="block text-sm font-medium  ">
+                Phone
+              </label>
+              <input
+                type="number"
+                id="phone"
+                name="phone"
+                placeholder="Enter your phone number"
+                className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5"
+                required=""
+              />
             </div>
+
             <button
               type="submit"
-              className="w-full mt-3 text-white bg-black hover:bg-opacity-80 focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="w-full mt-3 text-white bg-black hover:bg-opacity-80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Sign in
+              Sign up
             </button>
           </form>
         </div>
@@ -101,4 +87,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

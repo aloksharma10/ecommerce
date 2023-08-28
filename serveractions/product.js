@@ -23,7 +23,19 @@ export async function createProduct({ data }) {
     const newProduct = await product.create(data);
     return JSON.stringify(newProduct);
   } catch (error) {
-    console.log("failed to create product");
+    return {status: false, message: "failed to create product"};
+  }
+}
+
+export async function getProduct(id) {
+  try {
+    if (!conn) {
+      await connect();
+    }
+    const prod = await product.findById(id);
+    return JSON.stringify(prod);
+  } catch (error) {
+    return {status: false, message: "failed to create product"};
   }
 }
 
@@ -36,15 +48,15 @@ export async function searchProduct(e) {
       title: { $regex: e, $options: "i" },
     });
     return JSON.stringify(searchedProduct);
-
+    
     // const prod = await product.create({
     //   title: "test",
     //   slug: e,
     //   price: 0,
     //   description: "test",
     //   content: "testa",
-    //   size: ["small", "medium", "large"],
-    //   color: ["red", "blue", "green"],
+    //   size: "small",
+    //   color: "red",
     //   images: [
     //     {
     //       image:
@@ -62,12 +74,13 @@ export async function searchProduct(e) {
     //   inStock: 100,
     //   sold: 10,
     // });
+    // return ({status: false, message: pro})
   } catch (error) {
-    console.log("failed to serchProduct", error);
+    return {status: false, message: "failed to serchProduct", error};
   }
 }
 
-export async function getAllProducts({ category }) {
+export async function getAllProducts(category) {
   try {
     if (!conn) {
       await connect();
@@ -77,7 +90,7 @@ export async function getAllProducts({ category }) {
     });
     return JSON.stringify(allProducts);
   } catch (error) {
-    console.log("fail to get products from db", error);
+    return {status: false, message: "fail to get products from db", error};
   }
 }
 
@@ -89,6 +102,6 @@ export async function deleteProduct(id) {
     const delProdut = await product.deleteOne(id);
     return JSON.stringify(delProdut);
   } catch (error) {
-    console.log("faild to delete product");
+    return {status: false, message: "faild to delete product"};
   }
 }
