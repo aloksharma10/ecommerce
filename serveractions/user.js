@@ -2,7 +2,6 @@
 
 import User from "@/libs/models/user";
 import dbConn from "@/libs/mongo/dbconn";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 
@@ -29,6 +28,9 @@ export async function userSignup(formData) {
       email: formData.get("email"),
       password: userToken,
       phone: formData.get("phone"),
+      address:{
+        street: "I-block",
+      }
     });
     const { password, ...userWithoutPassword } = newUser;
     return { status: true, message: "User created successfully" };
