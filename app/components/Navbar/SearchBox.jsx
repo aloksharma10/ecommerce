@@ -56,7 +56,7 @@ function SearchBox() {
                       width={50}
                       alt={product.title}
                       className="object-contain"
-                      src={product.images[0].image}
+                      src={product.images[0]}
                     />
                   ) : (
                     <LuImageOff className="text-2xl mt-2" />

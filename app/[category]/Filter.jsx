@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { TbFilterOff } from "react-icons/tb";
+// import { useDebounce}
 
 function Filter() {
   const [price, setPrice] = useState(100000);
   return (
-    <div className="filters ml-16 hidden lg:block">
+    <div className="filters ml-4 w-96 hidden lg:block">
       <div className="m-4 ">
         <svg
           stroke="currentColor"
@@ -21,7 +22,7 @@ function Filter() {
       </div>
       <div className="absolute top-0 bg-white w-full px-6 z-20 transition-transform transform lg:transition-none  translate-y-0 lg:static shadow-lg md:shadow-none">
         <div className="flex text-4xl font-semibold my-4 md:my-6 justify-between">
-          Filters{" "}
+          Filters
           <TbFilterOff className="mt-1 cursor-pointer hover:scale-105 hover:shadow-lg" />
         </div>
         <hr className="w-full border border-black dark:border-white mb-2" />

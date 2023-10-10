@@ -23,19 +23,22 @@ export async function createProduct({ data }) {
     const newProduct = await product.create(data);
     return JSON.stringify(newProduct);
   } catch (error) {
-    return {status: false, message: "failed to create product"};
+    return { status: false, message: "failed to create product" };
   }
 }
 
-export async function getProduct(id) {
+export async function getProduct(slug) {
   try {
     if (!conn) {
       await connect();
     }
-    const prod = await product.findById(id);
-    return JSON.stringify(prod);
+    const prod = await product.find({ slug });
+    return {
+      status: 200,
+      product: prod[0],
+    };
   } catch (error) {
-    return {status: false, message: "failed to create product"};
+    return { status: false, message: "failed to create product" };
   }
 }
 
@@ -48,35 +51,30 @@ export async function searchProduct(e) {
       title: { $regex: e, $options: "i" },
     });
     return JSON.stringify(searchedProduct);
-    
+
+
     // const prod = await product.create({
-    //   title: "test",
+    //   title: "Think Outside The Box Typography Tshirt (S/Green)",
     //   slug: e,
     //   price: 0,
-    //   description: "test",
+    //   description:
+    //     "Achieve greatness and inspire others with the Work Hard, Dream Big Design T-shirt in black. This motivational t-shirt is designed to uplift and encourage you to reach for your dreams and never give up. The visually appealing print features a dynamic Work Hard, Dream Big slogan, making it a perfect statement piece to express your positive attitude and determination.",
     //   content: "testa",
     //   size: "small",
-    //   color: "red",
+    //   color: "Parrot Green",
     //   images: [
-    //     {
-    //       image:
-    //         "https://m.media-amazon.com/images/I/71hW0vqaIfL._SY741._SX._UX._SY._UY_.jpg",
-    //       size: "small",
-    //     },
-    //     {
-    //       image:
-    //         "https://m.media-amazon.com/images/I/71GtpNG3CtL._SY741._SX._UX._SY._UY_.jpg",
-    //       size: "medium",
-    //     },
+    //     "https://m.media-amazon.com/images/I/71hW0vqaIfL._SY741._SX._UX._SY._UY_.jpg",
+    //     "https://m.media-amazon.com/images/I/71GtpNG3CtL._SY741._SX._UX._SY._UY_.jpg",
     //   ],
     //   category: "mens",
     //   verified: true,
     //   inStock: 100,
     //   sold: 10,
     // });
+
     // return ({status: false, message: pro})
   } catch (error) {
-    return {status: false, message: "failed to serchProduct", error};
+    return { status: false, message: "failed to serchProduct", error };
   }
 }
 
@@ -88,9 +86,12 @@ export async function getAllProducts(category) {
     const allProducts = await product.find({
       category,
     });
-    return JSON.stringify(allProducts);
+    return {
+      status: 200,
+      product: allProducts,
+    };
   } catch (error) {
-    return {status: false, message: "fail to get products from db", error};
+    return { status: false, message: "fail to get products from db", error };
   }
 }
 
@@ -102,6 +103,6 @@ export async function deleteProduct(id) {
     const delProdut = await product.deleteOne(id);
     return JSON.stringify(delProdut);
   } catch (error) {
-    return {status: false, message: "faild to delete product"};
+    return { status: false, message: "faild to delete product" };
   }
 }

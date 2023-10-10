@@ -1,72 +1,32 @@
 import Image from "next/image";
 import ProductImage from "../components/ProductImage";
 import { getProduct } from "@/serveractions/product";
+import Link from "next/link";
 
 async function page({ params }) {
   const { slug } = params;
   const product = await getProduct(slug);
-  console.log(product);
+  const {
+    title,
+    price,
+    description,
+    highlights,
+    size,
+    color,
+    images,
+    category,
+    verified,
+    inStock,
+  } = product.product;
 
+  console.log(product);
   return (
     <section className="py-12 sm:py-16">
       <div className="container mx-auto px-4">
         <div className="xl:flex">
           <div className="lg:col-span-3 lg:row-end-1">
             <div className="lg:flex lg:items-start">
-              <ProductImage images={product.images}/>
-              <div className="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
-                <div className="flex flex-row items-start lg:flex-col">
-                  <div className="flex flex-col mx-auto border-black">
-                    <div className="h-auto flex lg:flex-col items-end md:ml-0">
-                      <div className="mt-2 mr-4 w-[7vh] flex border-2 border-black/30 hover:border-black  object-cover object-top h-[80px] md:w-[70px] md:h-[112px] rounded-lg cursor-pointer relative justify-center">
-                        <Image
-                          className=" object-contain rounded-lg"
-                          src="https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg"
-                          alt="productImg1"
-                          loading="eager"
-                          fill
-                        />
-                      </div>
-                      <div className="mt-2 mr-4 w-[7vh] flex border-2 border-black/30 hover:border-black  object-cover object-top h-[80px] md:w-[70px] md:h-[112px] rounded-lg cursor-pointer relative">
-                        <Image
-                          className=" object-contain rounded-lg"
-                          src="https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg"
-                          alt="productImg1"
-                          loading="eager"
-                          fill
-                        />
-                      </div>
-                      <div className="mt-2 mr-4 w-[7vh] flex border-2 border-black/30 hover:border-black  object-cover object-top h-[80px] md:w-[70px] md:h-[112px] rounded-lg cursor-pointer relative">
-                        <Image
-                          className=" object-contain rounded-lg"
-                          src="https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg"
-                          alt="productImg1"
-                          loading="eager"
-                          fill
-                        />
-                      </div>
-                      <div className="mt-2 mr-4 w-[7vh] flex border-2 border-black/30 hover:border-black  object-cover object-top h-[80px] md:w-[70px] md:h-[112px] rounded-lg cursor-pointer relative">
-                        <Image
-                          className=" object-contain rounded-lg"
-                          src="https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg"
-                          alt="productImg1"
-                          loading="eager"
-                          fill
-                        />
-                      </div>
-                      <div className="mt-2 mr-4 w-[7vh] flex border-2 border-black/30 hover:border-black  object-cover object-top h-[80px] md:w-[70px] md:h-[112px] rounded-lg cursor-pointer relative">
-                        <Image
-                          className=" object-contain rounded-lg"
-                          src="https://m.media-amazon.com/images/I/71dEY4Neo3L._SX679_.jpg"
-                          alt="productImg1"
-                          loading="eager"
-                          fill
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProductImage images={images} />
             </div>
           </div>
 
@@ -75,12 +35,12 @@ async function page({ params }) {
               <ol role="list" className="flex items-center">
                 <li className="text-left">
                   <div className="-m-1">
-                    <a
-                      href="#"
+                    <Link
+                      href="/"
                       className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                     >
                       Home
-                    </a>
+                    </Link>
                   </div>
                 </li>
 
@@ -88,12 +48,12 @@ async function page({ params }) {
                   <div className="flex items-center">
                     <span className="mx-2 text-gray-400">/</span>
                     <div className="-m-1">
-                      <a
-                        href="#"
+                      <Link
+                        href="/product"
                         className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                       >
                         Products
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </li>
@@ -107,162 +67,102 @@ async function page({ params }) {
                         className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                         aria-current="page"
                       >
-                        {"prod.name"}
+                        {title}
                       </a>
                     </div>
                   </div>
                 </li>
               </ol>
             </nav>
-            <h1 className=" text-lg md:text-3xl font-bold text-gray-900 ">
-              Realme Narzo N55 5G (4GB/64GB)
-            </h1>
-
-            <div className="mt-5 flex items-center">
-              <div className="flex items-center">
-                <svg
-                  className="block h-4 w-4 align-middle text-yellow-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                    className=""
-                  ></path>
-                </svg>
-                <svg
-                  className="block h-4 w-4 align-middle text-yellow-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                    className=""
-                  ></path>
-                </svg>
-                <svg
-                  className="block h-4 w-4 align-middle text-yellow-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                    className=""
-                  ></path>
-                </svg>
-                <svg
-                  className="block h-4 w-4 align-middle text-yellow-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                    className=""
-                  ></path>
-                </svg>
-                <svg
-                  className="block h-4 w-4 align-middle text-yellow-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                    className=""
-                  ></path>
-                </svg>
+            <h1 className=" text-lg md:text-3xl font-bold">{title}</h1>
+            <div className="mb-4 mt-3 hidden md:block">
+              <h2 className=" font-bold mb-1">Product Description:</h2>
+              <div className="product-description">
+                <div className="product-description">
+                  <p>{description}</p>
+                  <h2 className=" font-bold mb-1">Product Highlights:</h2>
+                  <ul className="list-disc pl-10">
+                    {
+                      highlights?.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))
+                    }
+                  </ul>
+                  <span>
+                    <b>Tags:</b> Motivational Quotes, Positive Vibes, Black Tee,
+                    Inspirational Clothing
+                  </span>
+                </div>
               </div>
-              <p className="ml-2 text-sm font-medium text-gray-500">
-                1,209 Reviews
-              </p>
-            </div>
-            <h2 className="mt-8 text-base text-gray-900">Coffee Type</h2>
-            <div className="mt-3 flex select-none flex-wrap items-center gap-1">
-              <label className="">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Powder"
-                  className="peer sr-only"
-                />
-                <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                  Powder
-                </p>
-              </label>
-              <label className="">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Whole Bean"
-                  className="peer sr-only"
-                />
-                <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                  Whole Bean
-                </p>
-              </label>
-              <label className="">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Groud"
-                  className="peer sr-only"
-                />
-                <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                  Groud
-                </p>
-              </label>
+              <div></div>
             </div>
 
-            <h2 className="mt-8 text-base text-gray-900">
-              Choose subscription
-            </h2>
+            <h2 className="mt-8 text-base text-gray-900">Size</h2>
             <div className="mt-3 flex select-none flex-wrap items-center gap-1">
               <label className="">
                 <input
                   type="radio"
-                  name="subscription"
-                  value="4 Months"
+                  name="type"
+                  value="s"
                   className="peer sr-only"
                 />
-                <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                  4 Months
+                <p className="peer-checked:bg-black uppercase peer-checked:text-white rounded-lg border text-sm border-black px-3 p-2 font-bold">
+                  s
                 </p>
-                <span className="mt-1 block text-center text-xs">$80/mo</span>
               </label>
               <label className="">
                 <input
                   type="radio"
-                  name="subscription"
-                  value="8 Months"
+                  name="type"
+                  value="m"
                   className="peer sr-only"
                 />
-                <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                  8 Months
+                <p className="peer-checked:bg-black uppercase peer-checked:text-white rounded-lg border text-sm border-black px-3 p-2 font-bold">
+                  m
                 </p>
-                <span className="mt-1 block text-center text-xs">$60/mo</span>
               </label>
               <label className="">
                 <input
                   type="radio"
-                  name="subscription"
-                  value="12 Months"
+                  name="type"
+                  value="l"
+                  defaultChecked
                   className="peer sr-only"
                 />
-                <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">
-                  12 Months
+                <p className="peer-checked:bg-black uppercase peer-checked:text-white rounded-lg border text-sm border-black px-3 p-2 font-bold">
+                  l
                 </p>
-                <span className="mt-1 block text-center text-xs">$40/mo</span>
+              </label>
+              <label className="">
+                <input
+                  type="radio"
+                  name="type"
+                  value="xl"
+                  className="peer sr-only"
+                />
+                <p className="peer-checked:bg-black uppercase peer-checked:text-white rounded-lg border text-sm border-black px-3 p-2 font-bold">
+                  xl
+                </p>
+              </label>
+              <label className="">
+                <input
+                  type="radio"
+                  name="type"
+                  value="xxl"
+                  className="peer sr-only"
+                />
+                <p className="peer-checked:bg-black uppercase peer-checked:text-white rounded-lg border text-sm border-black px-3 p-2 font-bold">
+                  xxl
+                </p>
               </label>
             </div>
 
             <div className="mt-10 flex flex-col items-center justify-between space-y-3 border-t border-b py-4 sm:flex-row sm:space-y-0">
               <div className="flex items-end">
-                <h1 className="text-3xl font-bold">$60.50</h1>
-                <span className="text-base">/month</span>
+                <h1 className="text-3xl font-bold">₹{price}</h1>
+                <span className="text-sm text-slate-900 line-through ">
+                  ₹{price + 100}
+                </span>
               </div>
 
               <button

@@ -17,8 +17,8 @@ const productSchema = new Schema({
         type: String,
         required: true,
     },
-    content: {
-        type: String,
+    highlights: {
+        type: [String],
         required: true,
     },
     size: {

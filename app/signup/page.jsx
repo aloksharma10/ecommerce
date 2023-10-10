@@ -5,7 +5,6 @@ import { getServerSession } from "next-auth";
 
 async function page() {
   const session = await getServerSession();
-  console.log(session);
   if (session?.user) {
     return redirect("/");
   }

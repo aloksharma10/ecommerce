@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  BsCart2,
-  BsBoxSeam,
-} from "react-icons/bs";
+import { BsCart2, BsBoxSeam } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RxCrossCircled } from "react-icons/rx";
 import { PiUser } from "react-icons/pi";
@@ -14,11 +11,12 @@ import { signOut, useSession } from "next-auth/react";
 import { MdOutlineNotifications } from "react-icons/md";
 import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
 import SearchBox from "./SearchBox";
+import Logo from "../Logo/Logo";
 
 function Navbar() {
   const { data } = useSession();
   const [nav, setNav] = useState("hidden");
-  const [fashion, setFashion] = useState(false);
+  const [tshirts, setTshirts] = useState(false);
   const [searchBox, setSearchBox] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
   const pathname = usePathname();
@@ -36,19 +34,17 @@ function Navbar() {
   }, [pathname]);
 
   return (
-    <nav className="w-full z-20 py-2 shadow-lg sticky top-0 backdrop-blur-md bg-white/40 ">
-      <div className="w-full px-3 flex flex-wrap items-center lg:justify-center mt-0 py-2 xl:py-0">
-        <div className="px-0 pt-2 lg:pl-4 flex items-center lg:mx-4 cursor-pointer bg-clip-text text-2xl md:pt-0 font-bold mx-3  ">
-          <Link href="/">ShopVio</Link>
-        </div>
+    <nav className="w-full z-20 py-2 shadow-lg sticky top-0 backdrop-blur-md bg-white/40  ">
+      <div className="w-full flex flex-wrap items-center lg:justify-center mt-0 px-6 py-2 xl:py-0 ">
+        <Logo />
         <div className="xl:flex justify-center hidden">
           <div className="xl:w-[34vw]">
             <SearchBox />
           </div>
         </div>
-        {/* mobile  nav icon */}
+        {/* mobile nav icon */}
         <div className="flex lg:hidden justify-end absolute right-4 md:right-13 items-center">
-          <div className="mx-3">
+          <div className="mx-2">
             <FiSearch
               className="text-2xl cursor-pointer"
               onClick={() => {
@@ -59,12 +55,12 @@ function Navbar() {
           <div className="mx-2">
             <ThemeSwitcher />
           </div>
-          <div className="mx-2 relative cursor-pointer">
+          <Link href={"/cart"} className="mx-2 relative">
             <BsCart2 className="text-2xl" />
             <span className="absolute -top-2 -right-2 h-5 w-5 text-sm rounded-full bg-slate-600 text-white flex justify-center items-center items cursor-pointer">
               <span>1</span>
             </span>
-          </div>
+          </Link>
 
           <button
             onClick={() => toggleNav()}
@@ -75,59 +71,56 @@ function Navbar() {
         </div>
         {/* desktop nav */}
         <div className="w-full flex-grow-5 lg:flex lg:flex-1 lg:content-center lg:justify-end lg:w-auto h-0 lg:h-auto mt-2 lg:mt-0 z-20 overflow-hidden lg:overflow-visible ">
-          <ul className="flex items-center lg:flex-row ">
-            <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-              <div onMouseLeave={() => setFashion(false)} className="relative">
+          <ul className="flex justify-center space-x-2 xl:space-x-3 items-center whitespace-nowrap ">
+            <li className="text-lg font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
+              <div onMouseLeave={() => setTshirts(false)} className="relative">
                 <button
-                  onMouseOver={() => setFashion(true)}
+                  onMouseOver={() => setTshirts(true)}
                   className="flex items-center  rounded-md"
                 >
                   <span className="flex">
-                    Fashion<FiChevronDown
+                    Tshirts
+                    <FiChevronDown
                       className={`mt-1 mx-1 text-xl transition ease-in-out ${
-                        fashion ? "rotate-180" : ""
+                        tshirts ? "rotate-180" : ""
                       }`}
                     />
                   </span>
                 </button>
                 <ul
-                  className={`absolute mt-0 left-0 w-40 py-2  rounded-lg shadow-xl  bg-white ${
-                    fashion ? "block" : "hidden"
+                  className={`absolute mt-0 left-0 w-40 py-2  rounded-lg shadow-xl bg-white ${
+                    tshirts ? "block" : "hidden"
                   }`}
                 >
-                  <Link href={"/mens-fashion"}>
+                  <Link href={"/tshirts"}>
                     <li className="flex w-full items-center px-3 py-2 text-sm hover:bg-gray-100">
-                      Mens Fashion
+                      Tshirts
                     </li>
                   </Link>
-                  <Link href={"/women-fashion"}>
+                  <Link href={"/polo-tshirts"}>
                     <li className="flex w-full items-center px-3 py-2 text-sm hover:bg-gray-100">
-                      Women Fashion
+                      Polo Tshirt
                     </li>
                   </Link>
-                  <Link href={"/kids-fashion"}>
+                  <Link href={"/oversizedtshirts"}>
                     <li className="flex w-full items-center px-3 py-2 text-sm hover:bg-gray-100">
-                      Kids Fashion
+                      Oversized Tshirt
                     </li>
                   </Link>
                 </ul>
               </div>
             </li>
-            <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-              <Link href="/gadgets">Gadgets</Link>
-            </li>
-            <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-              <Link href="/electronics">Electronics</Link>
-            </li>
-            <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-              <Link href="/grocery">Grocery</Link>
-            </li>
-            <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-              <Link href="/beauty">Beauty</Link>
-            </li>
+            <Link href="/hoodies">
+              <li className="text-lg font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
+                Hoodies
+              </li>
+            </Link>
+            <Link href="/sweatshirts">
+              <li className="text-lg  font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
+                Sweatshirts
+              </li>
+            </Link>
+
             <li className="mx-1 relative cursor-pointer">
               <BsCart2 className="text-2xl" />
               <span className="absolute -top-2 -right-2 h-5 w-5 text-sm rounded-full bg-slate-600 text-white flex justify-center items-center hover:shadow-lg">
@@ -211,65 +204,48 @@ function Navbar() {
         className={`backdrop-blur-md bg-slate-200/70 text-center py-3 shadow-lg absolute w-full ${nav} lg:hidden`}
       >
         <ul>
-          <div className="text-center my-2 pl-2">
-            {/* {!login ? (
-              <Link href={"/login"}>
-                <button className="text-white bg-black hover:bg-slate-700 hover:shadow-lg duration-300 focus:ring-2 focus:ring-black font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center mx-1">
-                  Login
-                </button>
-              </Link>
-            ) : (
-              <Link href={"/"}>
-                <button className=" text-sm md:text-3xl hover:shadow-lg duration-300 focus:ring-2 focus:ring-black font-medium rounded-lg px-3 py-2 text-center  items-center mx-1">
-                  <MdAccountCircle />
-                </button>
-              </Link>
-            )} */}
-          </div>
           <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
             <Link href="/">Home</Link>
           </li>
           <li
             className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in"
-            onClick={() => setFashion(!fashion)}
+            onClick={() => setTshirts(!tshirts)}
           >
             <span className="flex justify-center">
-              Fashion <FiChevronDown className="mt-1 text-xl" />
+              Tshirts <FiChevronDown className="mt-1 text-xl" />
             </span>
             <ul
               className={`mt-0 py-2 rounded-lg shadow-xl  ${
-                fashion ? "block" : "hidden"
+                tshirts ? "block" : "hidden"
               }`}
             >
-              <Link href={"/mens-fashion"}>
+              <Link href={"/tshirts"}>
                 <li className="flex w-full justify-center px-3 py-2 text-sm">
-                  Mens Fashion
+                  Tshirts
                 </li>
               </Link>
-              <Link href={"/women-fashion"}>
+              <Link href={"/polo-tshirts"}>
                 <li className="flex w-full justify-center px-3 py-2 text-sm">
-                  Women Fashion
+                  Polo Tshirts
                 </li>
               </Link>
-              <Link href={"/kids-fashion"}>
+              <Link href={"/oversizetshirts"}>
                 <li className="flex w-full justify-center px-3 py-2 text-sm">
-                  Kids Fashion
+                  Oversize Tshirts
                 </li>
               </Link>
             </ul>
           </li>
-          <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-            <Link href="/gadgets">Gadgets</Link>
-          </li>
-          <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-            <Link href="/electronics">Electronics</Link>
-          </li>
-          <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-            <Link href="/grocery">Grocery</Link>
-          </li>
-          <li className="text-lg mx-2 my-2 font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
-            <Link href="/beauty">Beauty</Link>
-          </li>
+          <Link href="/hoodies">
+            <li className="text-lg font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
+              Hoodies
+            </li>
+          </Link>
+          <Link href="/sweatshirts">
+            <li className="text-lg  font-semibold hover:text-black transition hover:scale-105 duration-150 ease-out hover:ease-in">
+              Sweatshirts
+            </li>
+          </Link>
         </ul>
       </div>
       {searchBox && (
