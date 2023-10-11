@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { userLogin } from "@/serveractions/user";
 import GoogleLoginProvider from "./GoogleLoginProvider";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
@@ -14,7 +13,6 @@ function Login() {
     };
     // const resData = await userLogin(formData);
     const resData = await signIn("credentials", { ...formData });
-    console.log("resData", resData);
     // if (resData.status) {
     //   toast.success(resData.message);
     // } else {

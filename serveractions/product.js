@@ -52,7 +52,6 @@ export async function searchProduct(e) {
     });
     return JSON.stringify(searchedProduct);
 
-
     // const prod = await product.create({
     //   title: "Think Outside The Box Typography Tshirt (S/Green)",
     //   slug: e,
@@ -78,23 +77,90 @@ export async function searchProduct(e) {
   }
 }
 
-export async function getAllProducts(category) {
+export async function getAllProducts(category, searchParams) {
   try {
     if (!conn) {
       await connect();
     }
-    const allProducts = await product.find({
-      category,
-    });
+    const { color = [], size = [], price } = searchParams;
+
+    const filter = {
+      category: category,
+    };
+
+    if (color.length > 0) {
+      filter.color = { $in: color.split(',') };
+    }
+
+    if (size.length > 0) {
+      filter.size = { $in: size.split(',') };
+    }
+    if (price) {
+      filter.price = { $lt: parseInt(price) };
+    }
+    const allProducts = await product.find(filter);
+
+    let products = {};
+    for (let item of allProducts) {
+      if (item.title in products) {
+        if (!products[item.title].color.includes(item.color)) {
+          products[item.title].color.push(item.color);
+        }
+        if (!products[item.title].size.includes(item.size)) {
+          products[item.title].size.push(item.size);
+        }
+      } else {
+        products[item.title] = JSON.parse(JSON.stringify(item));
+        products[item.title].color = [item.color];
+        products[item.title].size = [item.size];
+      }
+    }
+    console.log(products);
     return {
       status: 200,
-      product: allProducts,
+      products,
     };
   } catch (error) {
     return { status: false, message: "fail to get products from db", error };
   }
 }
-
+export async function getCategoryFilters(category) {
+  try {
+    if (!conn) {
+      await connect();
+    }
+    const allProducts = await product.find({ category });
+    let products = {};
+    for (let item of allProducts) {
+      if (item.title in products) {
+        if (!products[item.title].color.includes(item.color)) {
+          products[item.title].color.push(item.color);
+        }
+        if (!products[item.title].size.includes(item.size)) {
+          products[item.title].size.push(item.size);
+        }
+      } else {
+        products[item.title] = JSON.parse(JSON.stringify(item));
+        products[item.title].color = [item.color];
+        products[item.title].size = [item.size];
+      }
+    }
+    const colors = [];
+    const sizes = [];
+    for (let item in products) {
+      colors.push(...products[item].color);
+      sizes.push(...products[item].size);
+    }
+    console.log(colors, sizes);
+    return {
+      status: 200,
+      colors,
+      sizes,
+    };
+  } catch (error) {
+    return { status: false, message: "fail to get products from db", error };
+  }
+}
 export async function deleteProduct(id) {
   try {
     if (!conn) {
